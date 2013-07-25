@@ -1,0 +1,7 @@
+{
+  "name":  "jquery-highlight",
+  "version": "3.1.0",
+  "dependencies": {
+    "jquery": "~1.9.0"
+  }
+}
