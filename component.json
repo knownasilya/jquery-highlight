@@ -1,7 +1,12 @@
 {
   "name":  "jquery-highlight",
+  "repo": "knownasilya/jquery-highlight",
   "version": "3.1.0",
+  "main": "jquery.highlight.js",
+  "scripts": [
+    "jquery.highlight.js"
+  ],
   "dependencies": {
-    "jquery": "1.9.1"
+    "jquery": "*"
   }
 }
