@@ -1,5 +1,7 @@
-Jquery.Highlight.js Bower Wrapper
-===============================
+jQuery.Highlight.js
+===================
+
+Text highlighting plugin for jQuery.
 
 Original [code][1] and [documentation][2].
 
