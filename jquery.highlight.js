@@ -83,7 +83,7 @@
         var settings = { className: 'highlight', element: 'span' };
         jQuery.extend(settings, options);
 
-        return this.find(settings.element + "." + settings.className).each(function () {
+        return this.find(settings.element + '.' + settings.className).each(function () {
             var parent = this.parentNode;
             parent.replaceChild(this.firstChild, this);
             parent.normalize();
@@ -91,24 +91,33 @@
     };
 
     jQuery.fn.highlight = function (words, options) {
-        var settings = { className: 'highlight', element: 'span', caseSensitive: false, wordsOnly: false };
+        var settings = {
+          className: 'highlight',
+          element: 'span',
+          caseSensitive: false,
+          wordsOnly: false
+        };
+
         jQuery.extend(settings, options);
         
-        if (words.constructor === String) {
-            words = [words];
+        if (typeof words === 'string') {
+          words = [words];
         }
         words = jQuery.grep(words, function(word, i){
           return word != '';
         });
         words = jQuery.map(words, function(word, i) {
-          return word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+          return word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
         });
-        if (words.length == 0) { return this; };
 
-        var flag = settings.caseSensitive ? "" : "i";
-        var pattern = "(" + words.join("|") + ")";
+        if (words.length === 0) {
+          return this;
+        };
+
+        var flag = settings.caseSensitive ? '' : 'i';
+        var pattern = '(' + words.join('|') + ')';
         if (settings.wordsOnly) {
-            pattern = "\\b" + pattern + "\\b";
+            pattern = '\\b' + pattern + '\\b';
         }
         var re = new RegExp(pattern, flag);
         
