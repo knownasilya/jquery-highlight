@@ -42,6 +42,7 @@
  * Licensed under MIT license.
  *
  */
+
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -80,7 +81,11 @@
     });
 
     jQuery.fn.unhighlight = function (options) {
-        var settings = { className: 'highlight', element: 'span' };
+        var settings = {
+          className: 'highlight',
+          element: 'span'
+        };
+
         jQuery.extend(settings, options);
 
         return this.find(settings.element + '.' + settings.className).each(function () {

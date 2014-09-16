@@ -23,12 +23,23 @@ component install knownasilya/jquery-highlight
 
 ### Available Options
 
+#### $.highlight
+
 The parameters are `highlight(string|array of strings, optional options object)` and the available options are:
 
   * `className` -- The CSS class of a highlighted element, defaults to 'highlight'.
   * `element` -- The element that wraps the highlighted word, defaults to 'span'.
   * `caseSensitive` -- If the search should be case sensitive, defaults to `false`.
   * `wordsOnly` -- If we want to highlight partial sections of a word, e.g. 'ca' from 'cat', defaults to `false`.
+
+#### $.unhighlight
+
+The parameters are `unhighlight(optional options object)`, and the available options are:
+
+  * `className`  -- The highlights to remove based on CSS class, defaults to 'highlight'.
+  * `element` -- The highlights to remove based on HTML element, defaults to 'span'.
+
+### Examples
 
 Below are several ways that you can utilize this plugin.
 
