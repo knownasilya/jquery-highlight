@@ -83,7 +83,7 @@ $('#content').unhighlight({
 
 ## Attribution
 
-All plugin code was originally created by Bartek Szopka (@bartaz).
+All plugin code was originally created by Bartek Szopka ([@bartaz][bartaz]).
 
 ## License
 
@@ -91,3 +91,4 @@ MIT
 
 [1]: https://github.com/bartaz/sandbox.js/blob/master/jquery.highlight.js
 [2]: http://bartaz.github.io/sandbox.js/jquery.highlight.html
+[bartaz]: https://github.com/bartaz
