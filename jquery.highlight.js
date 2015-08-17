@@ -23,6 +23,11 @@
  *   // search only for entire word 'lorem'
  *   $('#content').highlight('lorem', { wordsOnly: true });
  *
+ *   // search only for the entire word 'C#'
+ *   // and make sure that the word boundary can also
+ *   // be a 'non-word' character, as well as a regex latin1 only boundary:
+ *   $('#content').highlight('C#', { wordsOnly: true , wordsBoundary: '[\\b\\W]' });
+ *
  *   // don't ignore case during search of term 'lorem'
  *   $('#content').highlight('lorem', { caseSensitive: true });
  *
@@ -60,11 +65,19 @@
             if (node.nodeType === 3) {
                 var match = node.data.match(re);
                 if (match) {
+                    // The new highlight Element Node
                     var highlight = document.createElement(nodeName || 'span');
                     highlight.className = className || 'highlight';
-                    var wordNode = node.splitText(match.index);
-                    wordNode.splitText(match[0].length);
-                    var wordClone = wordNode.cloneNode(true);
+                    // Note that we use the captured value to find the real index
+                    // of the match. This is because we do not want to include the matching word boundaries
+                    var capturePos = node.data.indexOf( match[1] , match.index );
+
+                    // Split the node and replace the matching wordnode
+                    // with the highlighted node
+                    var wordNode = node.splitText(capturePos);
+                    wordNode.splitText(match[1].length);
+
+                    var wordClone = wordNode.cloneNode(true);                    
                     highlight.appendChild(wordClone);
                     wordNode.parentNode.replaceChild(highlight, wordNode);
                     return 1; //skip added node in parent
@@ -100,7 +113,8 @@
           className: 'highlight',
           element: 'span',
           caseSensitive: false,
-          wordsOnly: false
+          wordsOnly: false,
+          wordsBoundary: '\\b'
         };
 
         jQuery.extend(settings, options);
@@ -120,9 +134,11 @@
         };
 
         var flag = settings.caseSensitive ? '' : 'i';
+        // The capture parenthesis will make sure we can match
+        // only the matching word
         var pattern = '(' + words.join('|') + ')';
         if (settings.wordsOnly) {
-            pattern = '\\b' + pattern + '\\b';
+            pattern = settings.wordsBoundary + pattern + settings.wordsBoundary;
         }
         var re = new RegExp(pattern, flag);
         
