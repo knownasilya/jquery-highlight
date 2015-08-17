@@ -92,7 +92,7 @@ $('#content').unhighlight({
 
 ## Attribution
 
-All plugin code was originally created by Bartek Szopka ([@bartaz][bartaz]).
+Plugin was originally created by Bartek Szopka ([@bartaz][bartaz]).
 
 ## License
 
