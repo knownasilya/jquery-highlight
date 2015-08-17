@@ -58,6 +58,15 @@ $('#content').highlight('lorem', {
   wordsOnly: true
 });
 
+// search only for the entire word 'C#'
+// and make sure that the word boundary can also
+// be a 'non-word' character, as well as a regex latin1 only boundary:
+$('#content').highlight('C#', {
+  wordsOnly: true,
+  wordsBoundary: '[\\b\\W]'
+});
+
+
 // don't ignore case during search of term 'lorem'
 $('#content').highlight('lorem', {
   caseSensitive: true
