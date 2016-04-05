@@ -11,7 +11,7 @@ How to use this plugin.
 
 _Note: This plugin requires jQuery to be included, which is left up to you._
 
-First you neet to install the module, which can be installed in one
+First you need to install the module, which can be installed in one
 of the following ways:
 
 ```bash
@@ -47,7 +47,7 @@ The parameters are `unhighlight(optional options object)`, and the available opt
 Below are several ways that you can utilize this plugin.
 
 ```js
-// wrap every occurrance of text 'lorem' in content
+// wrap every occurrence of text 'lorem' in content
 // with <span class='highlight'> (default options)
 $('#content').highlight('lorem');
 
