@@ -11,7 +11,7 @@
  *  - highlight element tag and class names can be specified in options
  *
  * Usage:
- *   // wrap every occurrance of text 'lorem' in content
+ *   // wrap every occurrence of text 'lorem' in content
  *   // with <span class='highlight'> (default options)
  *   $('#content').highlight('lorem');
  *
@@ -31,7 +31,7 @@
  *   // don't ignore case during search of term 'lorem'
  *   $('#content').highlight('lorem', { caseSensitive: true });
  *
- *   // wrap every occurrance of term 'ipsum' in content
+ *   // wrap every occurrence of term 'ipsum' in content
  *   // with <em class='important'>
  *   $('#content').highlight('ipsum', { element: 'em', className: 'important' });
  *
@@ -77,7 +77,7 @@
                     var wordNode = node.splitText(capturePos);
                     wordNode.splitText(match[1].length);
 
-                    var wordClone = wordNode.cloneNode(true);                    
+                    var wordClone = wordNode.cloneNode(true);
                     highlight.appendChild(wordClone);
                     wordNode.parentNode.replaceChild(highlight, wordNode);
                     return 1; //skip added node in parent
@@ -118,7 +118,7 @@
         };
 
         jQuery.extend(settings, options);
-        
+
         if (typeof words === 'string') {
           words = [words];
         }
