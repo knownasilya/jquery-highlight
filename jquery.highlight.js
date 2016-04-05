@@ -138,10 +138,13 @@
         // only the matching word
         var pattern = '(' + words.join('|') + ')';
         if (settings.wordsOnly) {
-            pattern = settings.wordsBoundary + pattern + settings.wordsBoundary;
+            pattern =
+                (settings.wordsBoundaryStart || settings.wordsBoundary) +
+                pattern +
+                (settings.wordsBoundaryEnd || settings.wordsBoundary);
         }
         var re = new RegExp(pattern, flag);
-        
+
         return this.each(function () {
             jQuery.highlight(this, re, settings.element, settings.className);
         });
