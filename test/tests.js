@@ -46,3 +46,27 @@ QUnit.test("WordS only with custom boundary - Multi match" , function( assert ){
     assert.equal( $( $( '.highlight' , $test )[1] ).text() , 'lanyard' , "Second highlight is lanyard");
     assert.equal( $( $( '.highlight' , $test )[2] ).text() , 'C#' , "Third highlight is C#");
 });
+
+QUnit.test("Word only with differing custom boundaries, use the default" , function( assert ){
+    var $test = $('#test7');
+    $test.highlight('scurvy' , { wordsOnly: true  });
+    assert.ok( $( '.highlight' , $test ).length == 1 , "Ok got 1 highlighted piece of text");
+    $test.highlight( [ 'scurvy' , 'angplank' , 'lanyard' , 'C#' ] , { wordsOnly: true, wordsBoundaryStart: '\\b\\W*', wordsBoundaryEnd: '\\W' } );
+    assert.equal( $( '.highlight' , $test ).length , 4 , "4 Highlights");
+    assert.equal( $( $( '.highlight' , $test )[0] ).text() , 'C#' , "Third highlight is C#");
+    assert.equal( $( $( '.highlight' , $test )[1] ).text() , 'scurvy' , "First highlight is scurvy");
+    assert.equal( $( $( '.highlight' , $test )[2] ).text() , 'lanyard' , "Second highlight is lanyard");
+    assert.equal( $( $( '.highlight' , $test )[3] ).text() , 'C#' , "Third highlight is C#");
+});
+
+QUnit.test("Word only with differing custom boundaries, use the default" , function( assert ){
+    var $test = $('#test8');
+    $test.highlight('scurvy' , { wordsOnly: true  });
+    assert.ok( $( '.highlight' , $test ).length == 1 , "Ok got 1 highlighted piece of text");
+    $test.highlight( [ 'scurvy' , 'angplank' , 'lanyard' , 'C#' ] , { wordsOnly: true,  wordsBoundaryEnd: '\\W*\\b' } );
+    assert.equal( $( '.highlight' , $test ).length , 4 , "4 Highlights");
+    assert.equal( $( $( '.highlight' , $test )[0] ).text() , 'C#' , "Third highlight is C#");
+    assert.equal( $( $( '.highlight' , $test )[1] ).text() , 'scurvy' , "First highlight is scurvy");
+    assert.equal( $( $( '.highlight' , $test )[2] ).text() , 'lanyard' , "Second highlight is lanyard");
+    assert.equal( $( $( '.highlight' , $test )[3] ).text() , 'C#' , "Third highlight is C#");
+});

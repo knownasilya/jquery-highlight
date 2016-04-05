@@ -31,6 +31,9 @@ The parameters are `highlight(string|array of strings, optional options object)`
   * `element` -- The element that wraps the highlighted word, defaults to 'span'.
   * `caseSensitive` -- If the search should be case sensitive, defaults to `false`.
   * `wordsOnly` -- If we want to highlight partial sections of a word, e.g. 'ca' from 'cat', defaults to `false`.
+  * `wordsBoundary` -- If `wordsOnly` is set to `true`, this is used to determine these boundaries, defaults to `\\b` (word boundary).
+  * `wordsBoundaryStart` -- If `wordsOnly` is set to `true`, this is used to determine prefix word boundaries, defaults to the value of `wordsBoundary`.
+  * `wordsBoundaryEnd` -- If `wordsOnly` is set to `true`, this is used to determine suffix word boundaries, defaults to the value of `wordsBoundary`.
 
 #### $.unhighlight
 
@@ -64,6 +67,14 @@ $('#content').highlight('lorem', {
 $('#content').highlight('C#', {
   wordsOnly: true,
   wordsBoundary: '[\\b\\W]'
+});
+
+// search only for the entire word 'C++'
+// and make sure that the word boundary can also
+// be a 'non-word' character, as well as a regex latin1 only boundary:
+$('#content').highlight('C++', {
+  wordsOnly: true,
+  wordsBoundaryEnd:   '\\W*\\b'
 });
 
 
