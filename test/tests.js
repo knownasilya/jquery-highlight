@@ -34,7 +34,7 @@ QUnit.test("Word only with custom boundary - One match", function( assert ){
     $test.highlight('C#' , { wordsOnly: true , wordsBoundary: '\\W' });
     assert.equal( $( '.highlight' , $test ).length, 1 , "Ok got 1 highlighted piece of text");
     assert.equal( $( $( '.highlight' , $test )[0] ).text() , 'C#' , "Third highlight is C#");
-}); 
+});
 
 QUnit.test("WordS only with custom boundary - Multi match" , function( assert ){
     var $test = $('#test6');

@@ -77,7 +77,7 @@
                     var wordNode = node.splitText(capturePos);
                     wordNode.splitText(match[1].length);
 
-                    var wordClone = wordNode.cloneNode(true);                    
+                    var wordClone = wordNode.cloneNode(true);
                     highlight.appendChild(wordClone);
                     wordNode.parentNode.replaceChild(highlight, wordNode);
                     return 1; //skip added node in parent
@@ -118,7 +118,7 @@
         };
 
         jQuery.extend(settings, options);
-        
+
         if (typeof words === 'string') {
           words = [words];
         }
