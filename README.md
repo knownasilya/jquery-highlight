@@ -74,7 +74,7 @@ $('#content').highlight('C#', {
 // be a 'non-word' character, as well as a regex latin1 only boundary:
 $('#content').highlight('C++', {
   wordsOnly: true,
-  wordsBoundaryEnd:   '\\W*\\b'
+  wordsBoundaryEnd: '\\W*\\b'
 });
 
 
