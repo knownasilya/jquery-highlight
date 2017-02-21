@@ -89,7 +89,7 @@
                     !/(script|style)/i.test(node.tagName) && // ignore script and style nodes
                     !(node.tagName === nodeName.toUpperCase() && node.className === className)) { // skip if already highlighted
                 for (var i = 0; i < node.childNodes.length; i++) {
-                    i += jQuery.highlight(node.childNodes[i], re, nodeName, className);
+                    i += jQuery.highlight(node.childNodes[i], re, nodeName, className, callback);
                 }
             }
             return 0;
