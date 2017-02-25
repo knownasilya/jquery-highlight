@@ -61,7 +61,7 @@
     }
 }(function (jQuery) {
     jQuery.extend({
-        highlight: function (node, re, nodeName, className) {
+        highlight: function (node, re, nodeName, className, callback) {
             if (node.nodeType === 3) {
                 var match = node.data.match(re);
                 if (match) {
@@ -80,13 +80,16 @@
                     var wordClone = wordNode.cloneNode(true);
                     highlight.appendChild(wordClone);
                     wordNode.parentNode.replaceChild(highlight, wordNode);
+                    if (typeof callback == 'function') {
+                        callback(highlight)   
+                    }
                     return 1; //skip added node in parent
                 }
             } else if ((node.nodeType === 1 && node.childNodes) && // only element nodes that have children
                     !/(script|style)/i.test(node.tagName) && // ignore script and style nodes
                     !(node.tagName === nodeName.toUpperCase() && node.className === className)) { // skip if already highlighted
                 for (var i = 0; i < node.childNodes.length; i++) {
-                    i += jQuery.highlight(node.childNodes[i], re, nodeName, className);
+                    i += jQuery.highlight(node.childNodes[i], re, nodeName, className, callback);
                 }
             }
             return 0;
@@ -108,7 +111,7 @@
         }).end();
     };
 
-    jQuery.fn.highlight = function (words, options) {
+    jQuery.fn.highlight = function (words, options, callback) {
         var settings = {
           className: 'highlight',
           element: 'span',
@@ -146,7 +149,7 @@
         var re = new RegExp(pattern, flag);
 
         return this.each(function () {
-            jQuery.highlight(this, re, settings.element, settings.className);
+            jQuery.highlight(this, re, settings.element, settings.className, callback);
         });
     };
 }));
