@@ -25,19 +25,40 @@ component install knownasilya/jquery-highlight
 
 #### $.highlight
 
-The parameters are `highlight(string|array of strings, optional options object)` and the available options are:
+Function signature: `highlight(word, options, callback)`
 
-  * `className` -- The CSS class of a highlighted element, defaults to 'highlight'.
-  * `element` -- The element that wraps the highlighted word, defaults to 'span'.
-  * `caseSensitive` -- If the search should be case sensitive, defaults to `false`.
-  * `wordsOnly` -- If we want to highlight partial sections of a word, e.g. 'ca' from 'cat', defaults to `false`.
-  * `wordsBoundary` -- If `wordsOnly` is set to `true`, this is used to determine these boundaries, defaults to `\\b` (word boundary).
-  * `wordsBoundaryStart` -- If `wordsOnly` is set to `true`, this is used to determine prefix word boundaries, defaults to the value of `wordsBoundary`.
-  * `wordsBoundaryEnd` -- If `wordsOnly` is set to `true`, this is used to determine suffix word boundaries, defaults to the value of `wordsBoundary`.
+The parameters are:
+
+  **word** `string|array` (required)
+  
+  string such as `"lorem"` or `"lorem ipsum"` or an array of string such as `["lorem", "ipsum"]` 
+  
+  **options** `object` (optional)
+  
+  object with the following available options
+
+    * `className` -- The CSS class of a highlighted element, defaults to 'highlight'.
+    * `element` -- The element that wraps the highlighted word, defaults to 'span'.
+    * `caseSensitive` -- If the search should be case sensitive, defaults to `false`.
+    * `wordsOnly` -- If we want to highlight partial sections of a word, e.g. 'ca' from 'cat', defaults to `false`.
+    * `wordsBoundary` -- If `wordsOnly` is set to `true`, this is used to determine these boundaries, defaults to `\\b` (word boundary).
+    * `wordsBoundaryStart` -- If `wordsOnly` is set to `true`, this is used to determine prefix word boundaries, defaults to the value of `wordsBoundary`.
+    * `wordsBoundaryEnd` -- If `wordsOnly` is set to `true`, this is used to determine suffix word boundaries, defaults to the value of `wordsBoundary`.
+    
+  **callback** `function` (optional)
+  
+  function that will be called for each DOM node/element highlighted
+  
 
 #### $.unhighlight
 
-The parameters are `unhighlight(optional options object)`, and the available options are:
+Function signature: `unhighlight(options)`:
+
+The parameters are:
+
+**options** `object` (optional)
+
+  object with the following available options
 
   * `className`  -- The highlights to remove based on CSS class, defaults to 'highlight'.
   * `element` -- The highlights to remove based on HTML element, defaults to 'span'.
@@ -55,6 +76,13 @@ $('#content').highlight('lorem');
 // so you can save some time on traversing DOM
 $('#content').highlight(['lorem', 'ipsum']);
 $('#content').highlight('lorem ipsum');
+
+// wrap every occurrence of text 'lorem' in content
+// with <span class='highlight'> (default options)
+// log every word highlighted to the console using the invoked callback
+$('#content').highlight('lorem', {}, function(el) {
+ console.log('highligting DOM element', el)
+});
 
 // search only for entire word 'lorem'
 $('#content').highlight('lorem', {
