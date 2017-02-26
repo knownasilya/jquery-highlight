@@ -37,17 +37,17 @@ The parameters are:
   
   object with the following available options
 
-    * `className` -- The CSS class of a highlighted element, defaults to 'highlight'.
-    * `element` -- The element that wraps the highlighted word, defaults to 'span'.
-    * `caseSensitive` -- If the search should be case sensitive, defaults to `false`.
-    * `wordsOnly` -- If we want to highlight partial sections of a word, e.g. 'ca' from 'cat', defaults to `false`.
-    * `wordsBoundary` -- If `wordsOnly` is set to `true`, this is used to determine these boundaries, defaults to `\\b` (word boundary).
-    * `wordsBoundaryStart` -- If `wordsOnly` is set to `true`, this is used to determine prefix word boundaries, defaults to the value of `wordsBoundary`.
-    * `wordsBoundaryEnd` -- If `wordsOnly` is set to `true`, this is used to determine suffix word boundaries, defaults to the value of `wordsBoundary`.
+   * `className` -- The CSS class of a highlighted element, defaults to 'highlight'.
+   * `element` -- The element that wraps the highlighted word, defaults to 'span'.
+   * `caseSensitive` -- If the search should be case sensitive, defaults to `false`.
+   * `wordsOnly` -- If we want to highlight partial sections of a word, e.g. 'ca' from 'cat', defaults to `false`.
+   * `wordsBoundary` -- If `wordsOnly` is set to `true`, this is used to determine these boundaries, defaults to `\\b` (word boundary).
+   * `wordsBoundaryStart` -- If `wordsOnly` is set to `true`, this is used to determine prefix word boundaries, defaults to the value of `wordsBoundary`.
+   * `wordsBoundaryEnd` -- If `wordsOnly` is set to `true`, this is used to determine suffix word boundaries, defaults to the value of `wordsBoundary`.
     
-  **callback** `function` (optional)
-  
-  function that will be called for each DOM node/element highlighted
+**callback** `function` (optional)
+
+function that will be called for each DOM node/element highlighted
   
 
 #### $.unhighlight
