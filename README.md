@@ -5,7 +5,12 @@ Text highlighting plugin for jQuery.
 
 Original [code][1] and [documentation][2].
 
-## Usage
+- [Install](#install)
+- [API](#api)
+- [Examples](#examples)
+- [Attribution](#attribution)
+
+## Install
 
 How to use this plugin.
 
@@ -21,9 +26,9 @@ component install knownasilya/jquery-highlight
 # or just download it from Github
 ```
 
-### Available Options
+## API
 
-#### $.highlight
+### `$.highlight`
 
 Function signature: `highlight(word, options, callback)`
 
@@ -50,7 +55,7 @@ The parameters are:
 function that will be called for each DOM node/element highlighted
   
 
-#### $.unhighlight
+### `$.unhighlight`
 
 Function signature: `unhighlight(options)`:
 
@@ -63,7 +68,7 @@ The parameters are:
   * `className`  -- The highlights to remove based on CSS class, defaults to 'highlight'.
   * `element` -- The highlights to remove based on HTML element, defaults to 'span'.
 
-### Examples
+## Examples
 
 Below are several ways that you can utilize this plugin.
 
