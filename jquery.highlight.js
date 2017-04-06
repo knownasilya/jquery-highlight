@@ -239,7 +239,6 @@
             str = str.substr(i + word.length)
             return '(\\' + delimiter + ')?(' + escapeRegex(word).replace(/\\[-_]/g, ')?(\$&)?(') + ')?'
         }).join('')
-        console.log(subPattern)
         var re2 = new RegExp(subPattern, 'i')
         return re2
     }
