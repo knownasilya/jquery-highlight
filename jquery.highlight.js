@@ -60,36 +60,103 @@
         factory(jQuery);
     }
 }(function (jQuery) {
+    function highlightTextNode(node, match, matchStr, nodeName, className, callback) {
+        var highlight = document.createElement(nodeName || 'span');
+        highlight.className = className || 'highlight';
+        // Note that we use the captured value to find the real index
+        // of the match. This is because we do not want to include the matching word boundaries
+        var capturePos = node.data.indexOf( matchStr , match.index );
+
+        // Split the node and replace the matching wordnode
+        // with the highlighted node
+        var wordNode = node.splitText(capturePos);
+        wordNode.splitText(matchStr.length);
+
+        var wordClone = wordNode.cloneNode(true);
+        highlight.appendChild(wordClone);
+        wordNode.parentNode.replaceChild(highlight, wordNode);
+        if (typeof callback == 'function') {
+            callback(highlight)   
+        }
+        return highlight
+    }
+    function highlightHtmlNode(node, nodeName, className, callback) {
+        var highlight = document.createElement(nodeName || 'span');
+        highlight.className = className || 'highlight';
+        var nodeClone = node.cloneNode(true)
+        highlight.appendChild(nodeClone);
+        node.parentNode.replaceChild(highlight, node);
+        if (typeof callback == 'function') {
+            callback(highlight)   
+        }
+        return highlight
+    }
+    function highlightHtmlNodeList(nodeList, nodeName, className, callback) {
+        var node = nodeList[0]
+        var highlight = document.createElement(nodeName || 'span');
+        highlight.className = className || 'highlight';
+        node.parentNode.insertBefore(highlight, node);
+        nodeList.forEach(function(node) {
+            highlight.appendChild(node)
+        }) 
+        if (typeof callback == 'function') {
+            callback(highlight)   
+        }
+        return highlight
+    }
     jQuery.extend({
-        highlight: function (node, re, nodeName, className, callback) {
+        highlight: function (node, str, re, re2, nodeName, className, callback) {
             if (node.nodeType === 3) {
                 var match = node.data.match(re);
                 if (match) {
                     // The new highlight Element Node
-                    var highlight = document.createElement(nodeName || 'span');
-                    highlight.className = className || 'highlight';
-                    // Note that we use the captured value to find the real index
-                    // of the match. This is because we do not want to include the matching word boundaries
-                    var capturePos = node.data.indexOf( match[1] , match.index );
-
-                    // Split the node and replace the matching wordnode
-                    // with the highlighted node
-                    var wordNode = node.splitText(capturePos);
-                    wordNode.splitText(match[1].length);
-
-                    var wordClone = wordNode.cloneNode(true);
-                    highlight.appendChild(wordClone);
-                    wordNode.parentNode.replaceChild(highlight, wordNode);
-                    if (typeof callback == 'function') {
-                        callback(highlight)   
-                    }
+                    highlightTextNode(node, match, match[1], nodeName, className, callback)
                     return 1; //skip added node in parent
                 }
+
+                // check if we matched begining of str.
+                // Then see if we match the rest of string in sibling nodes
+                // looks around one level up and unlimited levels deep
+                var matchSub = node.data.match(re2);
+                if (matchSub) {
+                    var nextStr = str.replace(matchSub[0], '')
+                    var sibling = node.nextSibling || node.parentNode.nextSibling
+                    var nextMatchSub = true
+                    var matchedSiblings = [node]
+                    var subMatches = [matchSub]
+                    while(nextStr && sibling && nextMatchSub) {
+                        var nextRe = getSubRegex(nextStr)
+                        nextMatchSub = sibling.textContent.match(nextRe)
+                        if (nextMatchSub) {
+                            nextStr = nextStr.replace(nextMatchSub[0], '').trim()
+                            matchedSiblings.push(sibling)
+                            subMatches.push(nextMatchSub)
+                            sibling = sibling.nextSibling
+                        }
+                    }
+                    
+                    // we matched whole string
+                    if (!nextStr) {
+                        var subNodes = []
+                        for (var i = 0; i < matchedSiblings.length; i++) {
+                            var subNode = null
+                            if (matchedSiblings[i].nodeType == 3)
+                                subNode = highlightTextNode(matchedSiblings[i], subMatches[i], subMatches[i][0], nodeName, 'sub-highlight')
+                            else 
+                                subNode = highlightHtmlNode(matchedSiblings[i], nodeName, 'sub-highlight')
+                            subNodes.push(subNode)
+                        }
+                        highlightHtmlNodeList(subNodes, nodeName, className, callback)
+                        return matchedSiblings.length
+                    }
+                }
+                
             } else if ((node.nodeType === 1 && node.childNodes) && // only element nodes that have children
                     !/(script|style)/i.test(node.tagName) && // ignore script and style nodes
                     !(node.tagName === nodeName.toUpperCase() && node.className === className)) { // skip if already highlighted
+                var parentMatch = node.textContent.match(re)
                 for (var i = 0; i < node.childNodes.length; i++) {
-                    i += jQuery.highlight(node.childNodes[i], re, nodeName, className, callback);
+                    i += jQuery.highlight(node.childNodes[i], str, re, re2, nodeName, className, callback);
                 }
             }
             return 0;
@@ -125,6 +192,7 @@
         if (typeof words === 'string') {
           words = [words];
         }
+        var str = words.join(' ')
         words = jQuery.grep(words, function(word, i){
           return word != '';
         });
@@ -147,9 +215,26 @@
                 (settings.wordsBoundaryEnd || settings.wordsBoundary);
         }
         var re = new RegExp(pattern, flag);
+        var re2 = getSubRegex(str)
 
         return this.each(function () {
-            jQuery.highlight(this, re, settings.element, settings.className, callback);
+            jQuery.highlight(this, str, re, re2, settings.element, settings.className, callback);
         });
     };
+
+    // matches the first portion of the string
+    function getSubRegex(str) {
+        var parts = str.trim().split(/[\s\t\r\n]/)
+        var firstWord = parts.shift()
+        words = jQuery.map(parts, function(word, i) {
+          return word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+        });
+        var subPattern = '(' + firstWord + ')'
+        if (words.length) {
+            subPattern += '(\\ ' + words.join(')?(\\ ') + ')?'
+        }
+        var re2 = new RegExp(subPattern, 'i')
+        return re2
+    }
+
 }));
