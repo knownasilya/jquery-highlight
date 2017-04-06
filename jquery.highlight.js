@@ -222,17 +222,24 @@
         });
     };
 
+    function escapeRegex(word) {
+        return word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+    }
+
     // matches the first portion of the string
     function getSubRegex(str) {
-        var parts = str.trim().split(/[\s\t\r\n]/)
-        var firstWord = parts.shift()
-        words = jQuery.map(parts, function(word, i) {
-          return word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-        });
-        var subPattern = '(' + firstWord + ')'
-        if (words.length) {
-            subPattern += '(\\ ' + words.join(')?(\\ ') + ')?'
-        }
+        str = str.trim()
+        var words = str.split(/[\s\t\r\n]+/)
+        var firstWord = words.shift()
+        str = str.substr(firstWord.length)
+        var subPattern = '(' + escapeRegex(firstWord) + ')'
+        subPattern += words.map(function(word) {
+            var i = str.indexOf(word)
+            var delimiter = str.substr(0, i)
+            str = str.substr(i + word.length)
+            return '(\\' + delimiter + ')?(' + escapeRegex(word).replace(/\\[-_]/g, ')?(\$&)?(') + ')?'
+        }).join('')
+        console.log(subPattern)
         var re2 = new RegExp(subPattern, 'i')
         return re2
     }
