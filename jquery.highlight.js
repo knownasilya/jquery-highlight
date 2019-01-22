@@ -61,9 +61,19 @@
   }
 })(function(jQuery) {
   jQuery.extend({
-    highlight: function(node, re, nodeName, className, callback) {
+    highlight: function(
+      node,
+      re,
+      nodeName,
+      className,
+      callback,
+      ignoreDiacritics
+    ) {
       if (node.nodeType === 3) {
-        var match = node.data.match(re);
+        var subject = ignoreDiacritics
+          ? jQuery.removeDiacritcs(node.data)
+          : node.data;
+        var match = subject.match(re);
         if (match) {
           // The new highlight Element Node
           var highlight = document.createElement(nodeName || 'span');
@@ -101,11 +111,34 @@
             re,
             nodeName,
             className,
-            callback
+            callback,
+            ignoreDiacritics
           );
         }
       }
       return 0;
+    },
+
+    removeDiacritcs: function(word) {
+      return word
+        .replace(/[\u00c0-\u00c6]/g, 'A')
+        .replace(/[\u00e0-\u00e6]/g, 'a')
+        .replace(/[\u00c7]/g, 'C')
+        .replace(/[\u00e7]/g, 'c')
+        .replace(/[\u00c8-\u00cb]/g, 'E')
+        .replace(/[\u00e8-\u00eb]/g, 'e')
+        .replace(/[\u00cc-\u00cf]/g, 'I')
+        .replace(/[\u00ec-\u00ef]/g, 'i')
+        .replace(/[\u00d1|\u0147]/g, 'N')
+        .replace(/[\u00f1|\u0148]/g, 'n')
+        .replace(/[\u00d2-\u00d8|\u0150]/g, 'O')
+        .replace(/[\u00f2-\u00f8|\u0151]/g, 'o')
+        .replace(/[\u0160]/g, 'S')
+        .replace(/[\u0161]/g, 's')
+        .replace(/[\u00d9-\u00dc]/g, 'U')
+        .replace(/[\u00f9-\u00fc]/g, 'u')
+        .replace(/[\u00dd]/g, 'Y')
+        .replace(/[\u00fd]/g, 'y');
     }
   });
 
@@ -132,7 +165,8 @@
       element: 'span',
       caseSensitive: false,
       wordsOnly: false,
-      wordsBoundary: '\\b'
+      wordsBoundary: '\\b',
+      ignoreDiacritics: false
     };
 
     jQuery.extend(settings, options);
@@ -140,10 +174,13 @@
     if (typeof words === 'string') {
       words = [words];
     }
-    words = jQuery.grep(words, function(word, i) {
+    words = jQuery.grep(words, function(word) {
       return word != '';
     });
-    words = jQuery.map(words, function(word, i) {
+    words = jQuery.map(words, function(word) {
+      if (settings.ignoreDiacritics) {
+        word = jQuery.removeDiacritcs(word);
+      }
       return word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     });
 
@@ -169,7 +206,8 @@
         re,
         settings.element,
         settings.className,
-        callback
+        callback,
+        settings.ignoreDiacritics
       );
     });
   };
