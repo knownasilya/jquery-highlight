@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.5.0"></a>
+# [3.5.0](https://github.com/knownasilya/jquery-highlight/compare/v3.4.0...v3.5.0) (2019-01-28)
+
+
+### Features
+
+* add support to ignore diacritics ([d157490](https://github.com/knownasilya/jquery-highlight/commit/d157490))
+
+
+
 <a name="3.4.0"></a>
 # [3.4.0](https://github.com/knownasilya/jquery-highlight/compare/v3.2.2...v3.4.0) (2017-03-12)
 
