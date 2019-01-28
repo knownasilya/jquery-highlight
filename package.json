@@ -24,5 +24,8 @@
   "homepage": "https://github.com/knownasilya/jquery-highlight",
   "dependencies": {
     "jquery": ">= 1.0.0"
+  },
+  "devDependencies": {
+    "standard-version": "^4.4.0"
   }
 }
