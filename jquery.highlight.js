@@ -142,21 +142,21 @@
         },
 
         // https://github.com/knownasilya/jquery-highlight/issues/13
-        normalize: function (node) {
-            if (!node) {
-                return;
-            }
-            if (node.nodeType == 3) {
-                while (node.nextSibling && node.nextSibling.nodeType == 3) {
-                    node.nodeValue += node.nextSibling.nodeValue;
-                    node.parentNode.removeChild(node.nextSibling);
-                }
-            } else {
-                jQuery.normalize(node.firstChild);
-            }
-            jQuery.normalize(node.nextSibling);
+    normalize: function (node) {
+      if (!node) {
+        return;
+      }
+      if (node.nodeType == 3) {
+        while (node.nextSibling && node.nextSibling.nodeType == 3) {
+          node.nodeValue += node.nextSibling.nodeValue;
+          node.parentNode.removeChild(node.nextSibling);
         }
-    });
+      } else {
+        jQuery.normalize(node.firstChild);
+      }
+      jQuery.normalize(node.nextSibling);
+    }
+  });
 
     jQuery.fn.unhighlight = function(options) {
         var settings = {
