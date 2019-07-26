@@ -139,6 +139,22 @@
         .replace(/[\u00f9-\u00fc]/g, 'u')
         .replace(/[\u00dd]/g, 'Y')
         .replace(/[\u00fd]/g, 'y');
+      },
+
+        // https://github.com/knownasilya/jquery-highlight/issues/13
+    normalize: function (node) {
+      if (!node) {
+        return;
+      }
+      if (node.nodeType == 3) {
+        while (node.nextSibling && node.nextSibling.nodeType == 3) {
+          node.nodeValue += node.nextSibling.nodeValue;
+          node.parentNode.removeChild(node.nextSibling);
+        }
+      } else {
+        jQuery.normalize(node.firstChild);
+      }
+      jQuery.normalize(node.nextSibling);
     }
   });
 
@@ -154,7 +170,7 @@
       .each(function() {
         var parent = this.parentNode;
         parent.replaceChild(this.firstChild, this);
-        parent.normalize();
+          jQuery.normalize(parent);
       })
       .end();
   };
